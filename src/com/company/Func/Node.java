@@ -8,6 +8,7 @@ public class Node {
     public int typeOfCell;
     public int x;
     public int y;
+    public int cost;
 
     public Node() {
         incident = new ArrayList<>();

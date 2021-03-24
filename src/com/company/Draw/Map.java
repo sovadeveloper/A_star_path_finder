@@ -28,16 +28,17 @@ public class Map implements Drawable{
         for(int i = 0; i < n; i++){
             for (int j = 0; j < m; j++){
                 String name = "X" + i + j;
-                BufferedImage grass = ImageIO.read(new File("D:/Projects/Task5_A_Star_Path_finder/src/img/grass.png"));
-                BufferedImage stone = ImageIO.read(new File("D:\\Projects\\Task5_A_Star_Path_finder\\src\\img\\stone.png"));
-                BufferedImage teleportIn = ImageIO.read(new File("D:\\Projects\\Task5_A_Star_Path_finder\\src\\img\\teleport.png"));
-                BufferedImage teleportOut = ImageIO.read(new File("D:\\Projects\\Task5_A_Star_Path_finder\\src\\img\\teleport.png"));
-                BufferedImage start = ImageIO.read(new File("D:\\Projects\\Task5_A_Star_Path_finder\\src\\img\\start.png"));
-                BufferedImage finish = ImageIO.read(new File("D:\\Projects\\Task5_A_Star_Path_finder\\src\\img\\finish.png"));
-                BufferedImage arrow_left = ImageIO.read(new File("D:\\Projects\\Task5_A_Star_Path_finder\\src\\img\\arrows\\left.png"));
-                BufferedImage arrow_up = ImageIO.read(new File("D:\\Projects\\Task5_A_Star_Path_finder\\src\\img\\arrows\\up.png"));
-                BufferedImage arrow_right = ImageIO.read(new File("D:\\Projects\\Task5_A_Star_Path_finder\\src\\img\\arrows\\right.png"));
-                BufferedImage arrow_down = ImageIO.read(new File("D:\\Projects\\Task5_A_Star_Path_finder\\src\\img\\arrows\\down.png"));
+                //TODO: путь лучше делать относительным а не абсолютным
+                BufferedImage grass = ImageIO.read(new File("src/img/grass.png"));
+                BufferedImage stone = ImageIO.read(new File("src/img/stone.png"));
+                BufferedImage teleportIn = ImageIO.read(new File("src/img/teleport.png"));
+                BufferedImage teleportOut = ImageIO.read(new File("src/img/teleport.png"));
+                BufferedImage start = ImageIO.read(new File("src/img/start.png"));
+                BufferedImage finish = ImageIO.read(new File("src/img/finish.png"));
+                BufferedImage arrow_left = ImageIO.read(new File("src/img/arrows/left.png"));
+                BufferedImage arrow_up = ImageIO.read(new File("src/img/arrows/up.png"));
+                BufferedImage arrow_right = ImageIO.read(new File("src/img/arrows/right.png"));
+                BufferedImage arrow_down = ImageIO.read(new File("src/img/arrows/down.png"));
                 switch (graph.getGraph().get(name).getTypeOfCell()){
                     case 0:
                         g.drawImage(grass, i*sizeNode, j*sizeNode, null);

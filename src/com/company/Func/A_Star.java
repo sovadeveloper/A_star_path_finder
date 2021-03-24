@@ -1,6 +1,5 @@
 package com.company.Func;
 
-import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -23,16 +22,7 @@ public class A_Star {
         return  h = D * (dx + dy);
     }
 
-    public void search_path(){
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < m; j++){
-                frontier.add(graph.getGraph().get("X"+i+j));
-            }
-        }
-        HashSet closed = new HashSet();
-        closed.add(start);
-        while(!frontier.isEmpty()){
-            Node current = frontier.
-        }
+    public void search_path() {
+
     }
 }

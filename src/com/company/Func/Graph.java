@@ -19,7 +19,7 @@ public class Graph {
         //Заполнение графа
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                int typeOfCell = rnd.nextInt(2);
+                int typeOfCell = 0;
                 String name = "X" + i + j;
                 if (name.equals("X00")) {
                     typeOfCell = 4;
@@ -43,43 +43,49 @@ public class Graph {
                 graph.put(name, new Node(incident, typeOfCell, i * sizeNode, j * sizeNode));
             }
         }
+        createTp(numOfTeleports);
+        createStones(5);
+    }
 
-        //Положение телепортов (супер-костыль :D)
-        for (int k = 0; k < numOfTeleports; k++){
-                int typeOfCell;
-                int teleport1PartOne = rnd.nextInt(12);
-                int teleport1PartTwo = rnd.nextInt(5);
-                int teleport2PartOne = rnd.nextInt(12);
-                int teleport2PartTwo = rnd.nextInt(5);
-                String nameOfCellForTeleport1 = "X" + teleport1PartOne + teleport1PartTwo;
-                String nameOfCellForTeleport2 = "X" + teleport2PartOne + teleport2PartTwo;
-
-                if(!nameOfCellForTeleport1.equals(startCell) && !nameOfCellForTeleport1.equals(endCell)){
-                    typeOfCell = 2;
-                    ArrayList<String> incidentTeleports = new ArrayList<>();
-                    incidentTeleports.add(nameOfCellForTeleport2);
-                    graph.put(nameOfCellForTeleport1, new Node(incidentTeleports, typeOfCell, teleport1PartOne * sizeNode, teleport1PartTwo * sizeNode));
-                }else{
-                    nameOfCellForTeleport1 = "X" + 3 + 2;
-                    typeOfCell = 2;
-                    ArrayList<String> incidentTeleports = new ArrayList<>();
-                    incidentTeleports.add(nameOfCellForTeleport2);
-                    graph.put(nameOfCellForTeleport1, new Node(incidentTeleports, typeOfCell, teleport1PartOne * sizeNode, teleport1PartTwo * sizeNode));
-
-                }
-                if(!nameOfCellForTeleport2.equals(startCell) && !nameOfCellForTeleport2.equals(endCell)){
-                    typeOfCell = 3;
-                    ArrayList<String> incidentTeleports = new ArrayList<>();
-                    incidentTeleports.add(nameOfCellForTeleport1);
-                    graph.put(nameOfCellForTeleport2, new Node(incidentTeleports, typeOfCell, teleport2PartOne * sizeNode, teleport2PartTwo * sizeNode));
-                }else{
-                    nameOfCellForTeleport2 = "X" + 9 + 4;
-                    typeOfCell = 3;
-                    ArrayList<String> incidentTeleports = new ArrayList<>();
-                    incidentTeleports.add(nameOfCellForTeleport1);
-                    graph.put(nameOfCellForTeleport2, new Node(incidentTeleports, typeOfCell, teleport2PartOne * sizeNode, teleport2PartTwo * sizeNode));
-                }
+    private void createStones(int countStones) {
+        for (int k = 0; k < countStones; k++) {
+            int i = rnd.nextInt(12);
+            int j = rnd.nextInt(5);
+            while (graph.get(genName(i, j)).typeOfCell != 0) {
+                i = rnd.nextInt(12);
+                j = rnd.nextInt(5);
             }
+            graph.get(genName(i, j)).typeOfCell = 1;
+        }
+    }
+
+    //Положение телепортов (супер-костыль :D)
+    //TODO: согласен, это был костыльный метод
+    // небольшой комментарий: так как телепорт не работает в две стороны то он должен быть реализован
+    // через ориентированный граф, то есть должна быть ссылка у телепорта входа, на выход, но у выхода
+    // не должна быть ссылка на вход
+    private void createTp(int countTp) {
+        for (int k = 0; k < countTp; k++) {
+            int tPl2i = rnd.nextInt(12);
+            int tPl2j = rnd.nextInt(5);
+            while (graph.get(genName(tPl2i, tPl2j)).typeOfCell != 0) {
+                tPl2i = rnd.nextInt(12);
+                tPl2j = rnd.nextInt(5);
+            }
+            graph.get(genName(tPl2i, tPl2j)).typeOfCell = 3;
+            int tPl1i = rnd.nextInt(12);
+            int tPl1j = rnd.nextInt(5);
+            while (graph.get(genName(tPl1i, tPl1j)).typeOfCell != 0) {
+                tPl1i = rnd.nextInt(12);
+                tPl1j = rnd.nextInt(5);
+            }
+            graph.get(genName(tPl1i, tPl1j)).typeOfCell = 2;
+            graph.get(genName(tPl1i, tPl1j)).incident.add(genName(tPl2i, tPl2j));
+        }
+    }
+
+    private String genName(int i, int j) {
+        return "X" + i + j;
     }
 
     public HashMap<String, Node> getGraph() {
