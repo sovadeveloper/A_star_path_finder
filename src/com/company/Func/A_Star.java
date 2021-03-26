@@ -20,7 +20,7 @@ public class A_Star {
     public int heuristic(Node node){
         int dx = Math.abs(node.x - goal.x);
         int dy = Math.abs(node.y - goal.y);
-        return  h = D * (dx + dy);
+        return  D * (dx + dy);
     }
 
     public void search_path(){
@@ -32,7 +32,7 @@ public class A_Star {
         HashSet closed = new HashSet();
         closed.add(start);
         while(!frontier.isEmpty()){
-            Node current = frontier.
+
         }
     }
 }
