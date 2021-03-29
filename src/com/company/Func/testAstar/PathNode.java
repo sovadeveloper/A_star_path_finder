@@ -1,7 +1,8 @@
 package com.company.Func.testAstar;
 
 public class PathNode {
-    public Node position;
+    public int positionX;
+    public int positionY;
     public int g;
     public PathNode CameFrom;
     public int h;
@@ -10,10 +11,11 @@ public class PathNode {
     public PathNode() {
     }
 
-    public PathNode(Node position, int g, PathNode cameFrom, int h) {
-        this.position = position;
+    public PathNode(Node positionX, Node positionY, int g, PathNode cameFrom, int h) {
+        this.positionX = positionX.getX();
+        this.positionY = positionY.getY();
         this.g = g;
-        CameFrom = cameFrom;
+        this.CameFrom = cameFrom;
         this.h = h;
     }
 

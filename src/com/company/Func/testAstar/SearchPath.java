@@ -5,7 +5,7 @@ import java.util.*;
 public class SearchPath {
     public List<Node> findPath(int[][] map, Node start, Node goal){
         List<PathNode> openedList = new ArrayList();
-        HashSet<PathNode> closed = new HashSet();
+        List<PathNode> closed = new ArrayList<>();
 
         PathNode startNode = new PathNode(start, 0, null, heuristic(start, goal));
         openedList.add(startNode);
@@ -26,6 +26,11 @@ public class SearchPath {
             closed.add(currentNode);
             for(PathNode neighbour: GetNeighbours(currentNode, goal, map)){
                 //Застопорился...((((((((((((((((((((((((((((((((
+                for(int i = 0; i < closed.size(); i++){
+                    if((neighbour.getPosition() > 0) || (closed.get(i).getPosition() > 0)){
+
+                    }
+                }
             }
         }
 
