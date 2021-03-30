@@ -30,7 +30,7 @@ public class Map implements Drawable{
                 BufferedImage grass = ImageIO.read(new File("src/img/grass.png"));
                 BufferedImage stone = ImageIO.read(new File("src/img/stone.png"));
                 BufferedImage teleportIn = ImageIO.read(new File("src/img/teleport.png"));
-                BufferedImage teleportOut = ImageIO.read(new File("src/img/teleport.png"));
+                BufferedImage teleportOut = ImageIO.read(new File("src/img/teleportOut.png"));
                 BufferedImage start = ImageIO.read(new File("src/img/start.png"));
                 BufferedImage finish = ImageIO.read(new File("src/img/finish.png"));
                 BufferedImage arrow_left = ImageIO.read(new File("src/img/arrows/left.png"));

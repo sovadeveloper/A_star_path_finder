@@ -12,6 +12,7 @@ public class Graph implements Drawable {
     Random rnd = new Random();
     int sizeNode = 126;
     Point goal = new Point(11, 5);
+    Node tpIn = null;
 
 
     public void SetNames() {
@@ -94,7 +95,11 @@ public class Graph implements Drawable {
     }
 
     private int heuristic(Node item) {
-        return (int) (Math.sqrt(Math.abs(item.x - goal.x) * Math.abs(item.x - goal.x) + Math.abs(item.y - goal.y) * Math.abs(item.y - goal.y)));
+        int res = 0;
+        res =  (int) (Math.sqrt(Math.abs(item.x - goal.x) * Math.abs(item.x - goal.x) + Math.abs(item.y - goal.y) * Math.abs(item.y - goal.y)));
+        int res1 =(int) (Math.sqrt(Math.abs(item.x - tpIn.x) * Math.abs(item.x - tpIn.x) + Math.abs(item.y - tpIn.y) * Math.abs(item.y - tpIn.y)));
+        res += res1/2;
+        return res;
     }
 
     private List<Node> convertPointToNode(List<Point> list, List<Node> close) {
@@ -142,6 +147,7 @@ public class Graph implements Drawable {
                 tPl1j = rnd.nextInt(5);
             }
             graph.get(new Point(tPl1i, tPl1j)).typeOfCell = 2;
+            tpIn = graph.get(new Point(tPl1i, tPl1j));
             graph.get(new Point(tPl1i, tPl1j)).incident.add(new Point(tPl2i, tPl2j));
         }
     }
