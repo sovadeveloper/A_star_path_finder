@@ -27,7 +27,6 @@ public class Map implements Drawable{
         int m = 6;
         for(int i = 0; i < n; i++){
             for (int j = 0; j < m; j++){
-                String name = "X" + i + j;
                 //TODO: путь лучше делать относительным а не абсолютным
                 BufferedImage grass = ImageIO.read(new File("src/img/grass.png"));
                 BufferedImage stone = ImageIO.read(new File("src/img/stone.png"));
@@ -39,7 +38,7 @@ public class Map implements Drawable{
                 BufferedImage arrow_up = ImageIO.read(new File("src/img/arrows/up.png"));
                 BufferedImage arrow_right = ImageIO.read(new File("src/img/arrows/right.png"));
                 BufferedImage arrow_down = ImageIO.read(new File("src/img/arrows/down.png"));
-                switch (graph.getGraph().get(name).getTypeOfCell()){
+                switch (graph.getGraph().get(new Point(i, j)).getTypeOfCell()){
                     case 0:
                         g.drawImage(grass, i*sizeNode, j*sizeNode, null);
                         break;

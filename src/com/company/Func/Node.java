@@ -1,20 +1,24 @@
 package com.company.Func;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
-    public List<String> incident;
+    public List<Point> incident;
     public int typeOfCell;
     public int x;
     public int y;
-    public int cost;
+    public int weight = 0;
+    public int evristicWeight = 0;
+    public Node cellfrom;
+
 
     public Node() {
         incident = new ArrayList<>();
     }
 
-    public Node(List<String> incident, int typeOfCell, int x, int y) {
+    public Node(List<Point> incident, int typeOfCell, int x, int y) {
         this();
         this.incident = incident;
         this.typeOfCell = typeOfCell;
