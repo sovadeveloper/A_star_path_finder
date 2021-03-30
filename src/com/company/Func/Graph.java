@@ -46,71 +46,64 @@ public class Graph {
         createTp(numOfTeleports);
         createStones(5);
         findPath();
+        drawFinalPath();
+    }
+
+    private void drawFinalPath() {
+        for (Node item : finalPath) {
+            item.typeOfCell = 5;
+        }
     }
 
     Node active;
     List<Node> open = new ArrayList<>();
-    List<Node> close  = new ArrayList<>();
+    List<Node> close = new ArrayList<>();
     List<Node> finalPath = new ArrayList<>();
 
     private void findPath() {
-        active = graph.get(new Point(0,0));
-        open.addAll(convertPointToNode(active.incident));
-        for(Node item:open){
-            item.weight = active.weight+10;
-            item.heuristicWeight = heuristic(item);
-            item.cellFrom = active;
+        active = graph.get(new Point(0, 0));
+        while (!((active.x == goal.x) && (active.y == goal.y))) {
+            open.addAll(convertPointToNode(active.incident, close));
+            Node minWeight = null;
+            int min = 1000000;
+            for (Node item : open) {
+                item.weight = active.weight + 10;
+                item.heuristicWeight = heuristic(item) * 10;
+                if (item.cellFrom == null) {
+                    item.cellFrom = active;
+                }
+                if (item.weight + item.heuristicWeight < min) {
+                    min = item.weight + item.heuristicWeight;
+                    minWeight = item;
+                }
+            }
+            close.add(active);
+            active = minWeight;
+            open.remove(active);
         }
-        close.add(active);
-
-
-        while(open.size() > 0){
-            Node currentNode = null;
-            for(Node node: open){
-                if(currentNode.f > node.f){
-                    currentNode = node;
-                }
-            }
-            if((currentNode.x == goal.x) && (currentNode.y == goal.y)){
-                return;// Здесь как-то маршрут надо вернуть, так как рассматриваемая точка оказалась конечной
-            }
-            close.add(currentNode);
-            //насчет следующеей строки не уверен, но надо скорее всего обновлять open-лист новыми соседями новой рассматр. точки
-            open.addAll(convertPointToNode(currentNode.incident));
-            //как уже писал, насчет верхней строки не уверен
-            open.remove(currentNode);
-            for(Node neighbour: convertPointToNode(currentNode.incident)){
-                for(Node node: close){
-                    if((node.x == neighbour.x) && (node.y == neighbour.y)){
-                        continue;
-                    }
-                }
-                Node openNode = open.get(0);
-                if(openNode == null){
-                    open.add(neighbour);
-                }else{
-                    openNode.cellFrom = currentNode;
-                    openNode.weight = neighbour.weight;
-                }
-            }
+        Node current = active;
+        while (!((current.x == 0) && (current.y == 0))) {
+            finalPath.add(current);
+            current = current.cellFrom;
         }
-        return; // Не дает вернуть null, так как метод void, надо чтобы метод возвращад List<Node> либо List<Point>
     }
 
     private int heuristic(Node item) {
-        return Math.abs(item.x - goal.x) + Math.abs(item.y - goal.y);
+        return (int) (Math.sqrt(Math.abs(item.x - goal.x) * Math.abs(item.x - goal.x) + Math.abs(item.y - goal.y) * Math.abs(item.y - goal.y)));
     }
 
-    private List<Node> convertPointToNode(List<Point> list){
+    private List<Node> convertPointToNode(List<Point> list, List<Node> close) {
         List<Node> list2 = new ArrayList<>();
-        for(Point item:list){
-            list2.add(graph.get(item));
+        for (Point item : list) {
+            if (!close.contains(item)) {
+                list2.add(graph.get(item));
+            }
         }
         return list2;
     }
 
-    private void deleteIncidentStones(){
-        for(Node item:graph.values()){
+    private void deleteIncidentStones() {
+        for (Node item : graph.values()) {
             item.incident.removeIf(i -> graph.get(i).typeOfCell == 1);
         }
     }
@@ -128,7 +121,6 @@ public class Graph {
         deleteIncidentStones();
     }
 
-    //Положение телепортов (супер-костыль :D)
     private void createTp(int countTp) {
         for (int k = 0; k < countTp; k++) {
             int tPl2i = rnd.nextInt(12);
