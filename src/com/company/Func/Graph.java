@@ -8,6 +8,8 @@ public class Graph {
     private HashMap<Point, Node> graph = new HashMap<>();
     Random rnd = new Random();
     int sizeNode = 126;
+    Point goal = new Point(11, 5);
+
 
     public void SetNames() {
         int n = 12;
@@ -49,21 +51,54 @@ public class Graph {
     Node active;
     List<Node> open = new ArrayList<>();
     List<Node> close  = new ArrayList<>();
+    List<Node> finalPath = new ArrayList<>();
 
     private void findPath() {
         active = graph.get(new Point(0,0));
         open.addAll(convertPointToNode(active.incident));
         for(Node item:open){
             item.weight = active.weight+10;
-            item.evristicWeight = evristic(item);
-            item.cellfrom = active;
+            item.heuristicWeight = heuristic(item);
+            item.cellFrom = active;
         }
         close.add(active);
+
+
+        while(open.size() > 0){
+            Node currentNode = null;
+            for(Node node: open){
+                if(currentNode.f > node.f){
+                    currentNode = node;
+                }
+            }
+            if((currentNode.x == goal.x) && (currentNode.y == goal.y)){
+                return;// Здесь как-то маршрут надо вернуть, так как рассматриваемая точка оказалась конечной
+            }
+            close.add(currentNode);
+            //насчет следующеей строки не уверен, но надо скорее всего обновлять open-лист новыми соседями новой рассматр. точки
+            open.addAll(convertPointToNode(currentNode.incident));
+            //как уже писал, насчет верхней строки не уверен
+            open.remove(currentNode);
+            for(Node neighbour: convertPointToNode(currentNode.incident)){
+                for(Node node: close){
+                    if((node.x == neighbour.x) && (node.y == neighbour.y)){
+                        continue;
+                    }
+                }
+                Node openNode = open.get(0);
+                if(openNode == null){
+                    open.add(neighbour);
+                }else{
+                    openNode.cellFrom = currentNode;
+                    openNode.weight = neighbour.weight;
+                }
+            }
+        }
+        return; // Не дает вернуть null, так как метод void, надо чтобы метод возвращад List<Node> либо List<Point>
     }
 
-    private int evristic(Node item) {
-
-        return 0;
+    private int heuristic(Node item) {
+        return Math.abs(item.x - goal.x) + Math.abs(item.y - goal.y);
     }
 
     private List<Node> convertPointToNode(List<Point> list){
@@ -73,8 +108,6 @@ public class Graph {
         }
         return list2;
     }
-
-
 
     private void deleteIncidentStones(){
         for(Node item:graph.values()){
@@ -96,10 +129,6 @@ public class Graph {
     }
 
     //Положение телепортов (супер-костыль :D)
-    //TODO: согласен, это был костыльный метод
-    // небольшой комментарий: так как телепорт не работает в две стороны то он должен быть реализован
-    // через ориентированный граф, то есть должна быть ссылка у телепорта входа, на выход, но у выхода
-    // не должна быть ссылка на вход
     private void createTp(int countTp) {
         for (int k = 0; k < countTp; k++) {
             int tPl2i = rnd.nextInt(12);

@@ -10,8 +10,9 @@ public class Node {
     public int x;
     public int y;
     public int weight = 0;
-    public int evristicWeight = 0;
-    public Node cellfrom;
+    public int heuristicWeight = 0;
+    public int f = weight + heuristicWeight;
+    public Node cellFrom;
 
 
     public Node() {

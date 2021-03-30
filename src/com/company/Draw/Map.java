@@ -27,7 +27,6 @@ public class Map implements Drawable{
         int m = 6;
         for(int i = 0; i < n; i++){
             for (int j = 0; j < m; j++){
-                //TODO: путь лучше делать относительным а не абсолютным
                 BufferedImage grass = ImageIO.read(new File("src/img/grass.png"));
                 BufferedImage stone = ImageIO.read(new File("src/img/stone.png"));
                 BufferedImage teleportIn = ImageIO.read(new File("src/img/teleport.png"));
