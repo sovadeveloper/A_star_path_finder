@@ -1,10 +1,13 @@
 package com.company.Func;
 
+import com.company.Draw.Drawable;
+
 import java.awt.*;
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
-public class Graph {
+public class Graph implements Drawable {
     private HashMap<Point, Node> graph = new HashMap<>();
     Random rnd = new Random();
     int sizeNode = 126;
@@ -155,5 +158,25 @@ public class Graph {
 
     public void setGraph(HashMap<Point, Node> graph) {
         this.graph = graph;
+    }
+
+    public void DrawPath(Graphics2D g){
+        g.setColor(Color.red);
+        for(Node node: close){
+            int n = 0;
+            int m = 0;
+            for(int i = 0; i < 12; i++){
+                for(int j = 0; j < 6; j++){
+                    g.drawRect(node.x, node.y, n * sizeNode, m * sizeNode);
+                    n++;
+                    m++;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void Draw(Graphics2D g) throws IOException {
+        DrawPath(g);
     }
 }
