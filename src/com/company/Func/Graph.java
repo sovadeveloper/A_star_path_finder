@@ -54,7 +54,9 @@ public class Graph implements Drawable {
 
     private void drawFinalPath() {
         for (Node item : finalPath) {
-            item.typeOfCell = 5;
+            if(item.typeOfCell == 0) {
+                item.typeOfCell = 5;
+            }
         }
     }
 
@@ -71,7 +73,7 @@ public class Graph implements Drawable {
             int min = 1000000;
             for (Node item : open) {
                 item.weight = active.weight + 10;
-                item.heuristicWeight = heuristic(item) * 10;
+                item.heuristicWeight = heuristic(item) * 100;
                 if (item.cellFrom == null) {
                     item.cellFrom = active;
                 }
